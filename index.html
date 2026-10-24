@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Test</title>
+<style>
+body{background:#6D1F2F;color:#F5EBDD;font-family:Arial,sans-serif;margin:0;padding:16px}
+h1,h2{text-align:center}
+.card{background:#F5EBDD;color:#6D1F2F;border-radius:12px;padding:14px;margin-bottom:14px}
+.card h3{margin-top:0}
+.opt{display:block;width:100%;text-align:left;background:#fff8ee;color:#6D1F2F;border:2px solid #6D1F2F;border-radius:8px;padding:10px;margin-top:8px;font-size:16px}
+.opt.selected{background:#6D1F2F;color:#F5EBDD}
+.main{width:100%;background:#F5EBDD;color:#6D1F2F;border:none;border-radius:10px;padding:14px;font-size:18px;font-weight:bold;margin-top:6px}
+#result{text-align:center;font-size:20px;font-weight:bold;margin:16px 0}
+  #welcome{max-width:420px;margin:0 auto;padding-top:16px;text-align:center}
+.deco{font-size:26px;margin:10px 0;letter-spacing:6px}
+.wcard{background:#F5EBDD;color:#6D1F2F;border-radius:20px;padding:22px 18px;box-shadow:0 0 0 6px #8a2a3e}
+.wemoji{font-size:54px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.wcard h1{margin:6px 0;font-size:24px}
+.wcard p{margin:6px 0;font-size:15px}
+.wcard input{display:block;width:85%;box-sizing:border-box;padding:16px;font-size:18px;border:2px solid #6D1F2F;border-radius:12px;background:#fff8ee;color:#6D1F2F;text-align:center;margin:16px auto 0 auto}
+.wcard button{display:block;width:85%;margin:18px auto 0 auto;background:#6D1F2F;color:#F5EBDD;border:none;border-radius:12px;padding:16px;font-size:20px;font-weight:bold}
+#werr{color:#b00020;font-size:14px;min-height:18px;margin-top:6px}
+.wfoot{color:#F5EBDD;margin-top:14px}
+#hello{text-align:center;background:#F5EBDD;color:#6D1F2F;border-radius:12px;padding:10px;margin-bottom:12px;font-size:16px}
+</style>
+</head>
+<body>
+ <svg width="0" height="0" style="position:absolute">
+  <symbol id="star" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="#F5EBDD"/></symbol>
+  <symbol id="flower" viewBox="0 0 24 24"><g fill="#F5EBDD"><circle cx="12" cy="5.5" r="4.5"/><circle cx="18.5" cy="10.5" r="4.5"/><circle cx="16" cy="18" r="4.5"/><circle cx="8" cy="18" r="4.5"/><circle cx="5.5" cy="10.5" r="4.5"/></g><circle cx="12" cy="12" r="3.5" fill="#6D1F2F"/></symbol>
+</svg>
+<div id="welcome">
+  <div class="deco">
+    <svg width="28" height="28" style="margin:0 5px"><use href="#flower"/></svg>
+    <svg width="22" height="22" style="margin:0 5px"><use href="#star"/></svg>
+    <svg width="28" height="28" style="margin:0 5px"><use href="#flower"/></svg>
+    <svg width="22" height="22" style="margin:0 5px"><use href="#star"/></svg>
+    <svg width="28" height="28" style="margin:0 5px"><use href="#flower"/></svg>
+  </div>
+  <div class="wcard">
+    <div class="wemoji">
+      <svg viewBox="0 0 100 70" width="90" height="63">
+        <path d="M50 12 C38 4 18 4 6 10 L6 58 C18 52 38 52 50 60 Z" fill="#6D1F2F"/>
+        <path d="M50 12 C62 4 82 4 94 10 L94 58 C82 52 62 52 50 60 Z" fill="#8a2a3e"/>
+        <path d="M14 18 C26 14 36 15 44 19 M14 28 C26 24 36 25 44 29 M14 38 C26 34 36 35 44 39 M56 19 C64 15 74 14 86 18 M56 29 C64 25 74 24 86 28 M56 39 C64 35 74 34 86 38" stroke="#F5EBDD" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>Welcome! • أهلا بك</h1>
+    <p>Find your English level with Maria</p>
+    <p dir="rtl">اكتشف مستواك في اللغة الإنجليزية مع ماريا</p>
+    <p>Every little step counts</p>
+    <p dir="rtl">كل خطوة صغيرة تقرّبك من هدفك</p>
+    <p>What's your name?</p>
+    <p dir="rtl">ما اسمك؟ اكتبه هنا</p>
+    <input id="nameInput" type="text" dir="auto" maxlength="30" placeholder="Your name • اسمك">
+    <div id="werr"></div>
+    <button id="enterBtn">Enter • دخول</button>
+  </div>
+  <p class="wfoot">You can do it! • أنت قادر على ذلك!</p>
+</div>
+<div id="app" style="display:none">
+<p id="hello"></p>
+<h1>English Level Test</h1>
+<h2 id="stage"></h2>
+<div id="quiz"></div>
+<button id="finish" class="main">Finish</button>
+<p id="result"></p>
+<button id="next" class="main" style="display:none"></button>
+</div>
+<script>
+
+/* كل سؤال: [النص, الجواب الصحيح, خطأ1, خطأ2, خطأ3] */
+const groups = [
+{ name: "A1.1", qs: [
+["She ___ a student.","is","am","are","be"],
+["I ___ from Algeria.","am","is","are","be"],
+["They ___ football every Sunday.","play","plays","playing","played"],
+["He ___ two brothers.","has","have","having","is have"],
+["I ___ like cold weather.","don't","doesn't","am not","not"],
+["What ___ your name?","is","are","do","does"],
+["There ___ two books on the table.","are","is","am","be"],
+["My brother ___ like coffee.","doesn't","don't","isn't","not"],
+["How ___ are you? — I'm 18.","old","many","much","long"],
+["We ___ at home yesterday.","were","was","are","be"],
+["Choose the opposite of “happy”.","sad","excited","kind","friendly"],
+["I ___ swim, but I can't dive.","can","cans","am","do"],
+["She has ___ orange bag.","an","a","the","some"],
+["This is my brother. ___ name is Adam.","His","Her","He","Him"],
+["These are my ___.","books","book","bookes","booking"],
+["___ is my pencil here.","This","These","Those","They"],
+["I see Mary. I see ___ every day.","her","she","hers","he"],
+["This is ___ house. We live here together.","our","us","we","ours"],
+["___ are my shoes over there.","Those","This","That","These"],
+["I have ___ money in my bag.","some","any","many","a"],
+["How ___ apples do you want?","many","much","old","long"],
+["How ___ water do you drink every day?","much","many","few","number"],
+["Which one is a fruit?","Apple","Potato","Carrot","Onion"],
+["You sleep in a ___.","bedroom","kitchen","bathroom","garden"],
+["What do you wear on your feet inside your shoes?","Socks","Gloves","A hat","A scarf"],
+["Which animal says “meow”?","Cat","Dog","Cow","Horse"],
+["A person who teaches students is a ___.","teacher","doctor","driver","farmer"],
+["What is the plural of “child”?","Children","Childs","Childes","Childrens"],
+["Which word means “سعيد”?","Happy","Angry","Tired","Hungry"],
+["You use a ___ to open a locked door.","key","spoon","plate","pencil"],
+["Which one is a color?","Purple","Monday","Seven","Winter"],
+["The book is ___ the table.","on","at","from","to"],
+["I wake up ___ seven o'clock.","at","in","on","from"],
+["My birthday is ___ May.","in","at","on","under"],
+["We go to school ___ Monday.","on","in","at","under"],
+["The cat is ___ the chair. You can see it beneath it.","under","between","behind","next to"],
+["The bank is ___ the supermarket and the pharmacy.","between","under","in","on"],
+["What time is it? 3:00.","It's three o'clock.","It's half past three.","It's quarter past three.","It's quarter to three."],
+["What day comes after Tuesday?","Wednesday","Monday","Thursday","Sunday"],
+["Which month comes before August?","July","June","September","October"],
+["There are ___ days in a week.","seven","five","six","eight"],
+["“How are you?” — “___.”","I'm fine, thank you.","I'm 18 years.","I'm from fine.","Yes, I am."],
+["“Thank you!” — “___.”","You're welcome","Goodbye","Good night","Excuse me"],
+["Choose the correct sentence.","She likes music.","Likes she music.","She music likes.","She like music."],
+["Choose the correct question.","Where do you live?","Where you live?","Where does you live?","Where are you live?"],
+["“Can I have a glass of water, please?” is a ___.","request","goodbye","warning","greeting"],
+["I am hungry. I want to ___.","eat","sleep","run","read"],
+["Choose the correct past form of “go”.","Went","Goed","Goes","Going"],
+["My mother is cooking. She is in the ___.","kitchen","bathroom","bedroom","garage"],
+["“How much is this T-shirt?” — “___.”","It's ten pounds.","It's blue.","It's my sister's.","It's very big."]
+]},
+  { name: "A1.2", qs: [
+["My brother usually _____ breakfast at 7, but today he _____ breakfast at 9.","has / is having","have / has","is having / has","has / have"],
+["Choose the correct sentence.","She doesn't like tea.","She don't like tea.","She doesn't likes tea.","She not like tea."],
+["There _____ any milk in the fridge.","isn't","aren't","don't","doesn't"],
+["How often _____ your sister visit your grandmother?","does","do","is","has"],
+["Look! The children _____ in the garden.","are playing","play","plays","is playing"],
+["My father _____ drive, so he takes the bus.","can't","doesn't can","isn't can","don't can"],
+["Which sentence is correct?","He always goes to school by bus.","He goes always to school by bus.","Always he go to school by bus.","He go to school always by bus."],
+["_____ your parents at home now?","Are","Is","Do","Does"],
+["I _____ my homework before dinner every day.","do","make","am","take"],
+["Sarah is _____ than her little sister.","taller","tall","tallest","more tall"],
+["My mother is _____ university teacher.","a","an","the","any"],
+["I don't have _____ brothers, but I have two sisters.","any","some","much","a"],
+["This isn't your bag. It's _____.","mine","my","me","I"],
+["There are _____ eggs in the basket, but not many.","a few","a little","much","any"],
+["We need _____ sugar for the cake.","a little","a few","many","an"],
+["Which sentence is correct?","These are my keys.","These is my keys.","This are my keys.","Those is my keys."],
+["I see two girls. _____ are my cousins.","They","Them","Their","She"],
+["He has _____ old bicycle and _____ new helmet.","an / a","a / an","the / an","an / an"],
+["_____ bag is this? Is it yours?","Whose","Who","Where","Which one are"],
+["There isn't _____ bread left.","much","many","a few","several"],
+["My birthday is _____ 15th March.","on","in","at","from"],
+["The train arrives _____ noon.","at","on","in","by"],
+["I go to school _____ foot.","on","by","with","in"],
+["The pharmacy is _____ the bank, on its right side.","next to","between","under","inside"],
+["She is interested _____ music.","in","on","at","for"],
+["We usually have dinner _____ the evening.","in","at","on","to"],
+["I get _____ the bus at the next stop.","off","up","on to","away"],
+["Please listen _____ the teacher carefully.","to","at","for","on"],
+["She is good _____ drawing.","at","in","on","from"],
+["I go to bed _____ midnight.","at","in","on","from"],
+["I _____ a shower every morning.","take","do","make","have got"],
+["Can you _____ me your pen, please?","lend","borrow","take from","keep to"],
+["I _____ my keys yesterday, but I found them under the sofa.","lost","missed","left out","forgot to"],
+["I need to _____ a photo of my new dress.","take","make","do","bring"],
+["My little brother is very _____. He always says “please” and “thank you”.","polite","rude","lazy","noisy"],
+["The opposite of “expensive” is _____.","cheap","rich","poor","high"],
+["I feel _____ because I didn't sleep well last night.","tired","thirsty","hungry","angry"],
+["A _____ works in a restaurant and brings food to customers.","waiter","mechanic","nurse","farmer"],
+["You wear a _____ around your neck when it's cold.","scarf","belt","glove","sock"],
+["I can't read this word. Can you _____ it for me?","spell","speak","say to","talk"],
+["Choose the correct question.","How much does this cost?","How much this costs?","How much do this cost?","How many does this cost?"],
+["Choose the correct sentence.","She can swim.","She can to swim.","She cans swim.","She can swimming."],
+["“Would you like some tea?” Choose the best answer.","Yes, I'd love some.","Yes, I like.","Yes, I would like tea yesterday.","Yes, I am."],
+["Choose the correct sentence.","I am 18 years old.","I have 18 years old.","I have 18 old.","I am 18 years."],
+["“I'm sorry I'm late.” Choose the best reply.","Never mind.","Good appetite.","Nice to meet you.","See you yesterday."],
+["Put the words in the correct order: never / coffee / drinks / he","He never drinks coffee.","Never drinks he coffee.","He drinks never coffee.","Coffee never he drinks."],
+["Choose the correct reply. “Where does your aunt live?”","She lives in Oran.","She is live in Oran.","She living in Oran.","She live at Oran."],
+["“Could you open the window, please?” What kind of sentence is it?","It's a polite request.","It's a question about age.","It's a goodbye.","It's an introduction."],
+["Choose the correct sentence about a future arrangement.","I am meeting my friend tomorrow.","I meeting my friend tomorrow.","I meets my friend tomorrow.","I am meet my friend tomorrow."],
+["You are in a shop and want to try on a shirt. What do you say?","Can I try it on, please?","Can I wear it yesterday?","Do I try it yesterday?","I am trying it yesterday."]
+]},
+  { name: "A2.1", qs: [
+["I _____ my homework already.","have finished","finished","am finishing","finish"],
+["While I _____ TV, my mother called me.","was watching","watched","am watching","have watched"],
+["She _____ to London twice.","has been","went","goes","was going"],
+["We _____ visit our grandparents next weekend.","are going to","going to","are go to","will to"],
+["He _____ in this city since 2022.","has lived","lives","lived","is living yesterday"],
+["When I arrived, they _____ dinner.","were having","had","have","are having"],
+["If it rains tomorrow, we _____ at home.","will stay","stayed","stay yesterday","would stayed"],
+["You _____ wear a seat belt in a car.","should","should to","must to","can to"],
+["I _____ play football when I was younger.","used to","use to","was use to","using to"],
+["This time tomorrow, I _____ on the beach.","will be relaxing","relax","relaxed","have relaxed"],
+["My new phone is _____ than my old one.","cheaper","more cheap","cheapest","cheap"],
+["This is _____ restaurant in our town.","the best","better","best than","more good"],
+["The bag is _____ heavy for me to carry.","too","enough","very much","many"],
+["He isn't old _____ to drive a car.","enough","too","much","many"],
+["My sister speaks English _____ than I do.","more fluently","fluent","most fluent","fluently more"],
+["This exercise is _____ difficult than the last one.","less","least","little","the less"],
+["The weather was _____ cold that we stayed inside.","so","such","enough","too much"],
+["Although he is young, he is very _____.","responsible","responsibly","responsibility","response"],
+["I enjoy _____ books in my free time.","reading","read","to reading","reads"],
+["She decided _____ a new language.","to learn","learning","learns","learn"],
+["Could you _____ the TV? I want to watch the news.","turn on","look after","give up","take off"],
+["I need to _____ my little brother while my parents are away.","look after","find out","turn down","put on"],
+["Please _____ your shoes before entering the house.","take off","wake up","look for","get on"],
+["I can't find my keys. Can you help me _____ them?","look for","look after","look at","look up to"],
+["He gave _____ smoking last year.","up","off","out","away"],
+["I forgot _____ the door before leaving.","to lock","lock","locking to","locked"],
+["I'm interested _____ learning foreign languages.","in","on","at","for"],
+["She is afraid _____ spiders.","of","from","with","about"],
+["We arrived _____ the airport two hours early.","at","in","on","to"],
+["He apologized _____ being late.","for","of","with","at"],
+["The opposite of “generous” is _____.","selfish","friendly","honest","polite"],
+["If you are “exhausted,” you are very _____.","tired","excited","hungry","surprised"],
+["A person who repairs cars is a _____.","mechanic","lawyer","journalist","receptionist"],
+["You should take a _____ if you want to travel by plane.","boarding pass","ticket office","menu","receipt"],
+["“How long have you lived here?”","For three years.","Since three years.","During three years ago.","Three years before."],
+["“Would you mind opening the window?”","Not at all.","Yes, I would like.","Never I mind.","No, I don't opening."],
+["“I haven't seen you for ages!”","I know! It's been a long time.","That's very expensive.","Nice to meet you yesterday.","I don't see you tomorrow."],
+["“What's the matter?”","I'm feeling a little sick.","It's ten o'clock.","I live near here.","It's made of wood."],
+["She _____ an excuse for being late.","made","did","took","gave"],
+["The instructions were so _____ that nobody understood them.","confusing","clear","convenient","ordinary"],
+["The hotel was fully _____, so we had to find another one.","booked","borrowed","repaired","crowded up"],
+["If something is “affordable,” it is _____.","reasonably priced","impossible to find","very dangerous","extremely old"],
+["He is very _____; he always tells the truth.","honest","nervous","selfish","careless"],
+["“I wish I could come, but I have to work.” What does the speaker mean?","They want to come but cannot.","They will definitely come.","They don't want to work.","They have already arrived."],
+["“You'd better take an umbrella.” What is the speaker doing?","Giving advice","Asking permission","Making an apology","Giving an order about the past"],
+["“I used to live in a small village.” What does this mean?","I lived there in the past, but not now.","I live there now.","I have never lived there.","I will live there soon."],
+["“Could you tell me where the nearest bank is?” Choose the correct reply.","It's next to the post office.","Yes, I could yesterday.","I am a bank.","It costs ten pounds."],
+["“I have to finish this report by tomorrow.” What does “have to” express here?","An obligation","A past habit","A possibility in the past","A personal preference"],
+["Choose the sentence with the same meaning: “Despite being tired, she continued working.”","Although she was tired, she continued working.","Because she was tired, she stopped working.","She continued working until she became tired.","She wasn't tired, so she worked."],
+["“I haven't decided whether to accept the job offer yet.” What does the speaker mean?","The speaker has not made a decision so far.","The decision is already final.","The speaker has refused the job.","The speaker started the job yesterday."]
+]}
+];
+
+const PASS = 0.6;
+let gi = 0, chosen = [], current = [], done = false;
+const quiz = document.getElementById("quiz");
+const stage = document.getElementById("stage");
+const result = document.getElementById("result");
+const finishBtn = document.getElementById("finish");
+const nextBtn = document.getElementById("next");
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function showGroup() {
+  quiz.innerHTML = "";
+  result.innerHTML = "";
+  nextBtn.style.display = "none";
+  finishBtn.style.display = "block";
+  stage.innerText = "Level " + groups[gi].name;
+  current = groups[gi].qs;
+  chosen = new Array(current.length).fill(null);
+  current.forEach(function (item, qi) {
+    const card = document.createElement("div");
+    card.className = "card";
+    const title = document.createElement("h3");
+    title.innerText = (qi + 1) + ". " + item[0];
+    card.appendChild(title);
+    const btns = [];
+    shuffle(item.slice(1)).forEach(function (text) {
+      const b = document.createElement("button");
+      b.className = "opt";
+      b.innerText = text;
+      b.onclick = function () {
+        chosen[qi] = text;
+        btns.forEach(function (x) { x.classList.remove("selected"); });
+        b.classList.add("selected");
+      };
+      btns.push(b);
+      card.appendChild(b);
+    });
+    quiz.appendChild(card);
+  });
+  window.scrollTo(0, 0);
+}
+
+finishBtn.onclick = function () {
+  if (chosen.includes(null)) {
+    result.innerText = "Please answer all the questions.";
+    return;
+  }
+  let score = 0;
+  current.forEach(function (item, i) {
+    if (chosen[i] === item[1]) score++;
+  });
+  const passed = score / current.length >= PASS;
+  finishBtn.style.display = "none";
+  quiz.innerHTML = "";
+  let msg = "Score: " + score + " / " + current.length + "<br>";
+  if (passed && gi < groups.length - 1) {
+    msg += "Great! Next: " + groups[gi + 1].name;
+    nextBtn.innerText = "Go to " + groups[gi + 1].name;
+    done = false;
+  } else {
+    const level = passed ? groups[gi].name : (gi > 0 ? groups[gi - 1].name : "below A1.1");
+    msg += "Your level: " + level;
+    nextBtn.innerText = "Start again";
+    done = true;
+  }
+  result.innerHTML = msg;
+  nextBtn.style.display = "block";
+  window.scrollTo(0, 0);
+};
+
+nextBtn.onclick = function () {
+  if (done) { gi = 0; } else { gi++; }
+  showGroup();
+};
+
+showGroup();
+  document.getElementById("enterBtn").onclick = enterTest;
+document.getElementById("nameInput").onkeydown = function (e) {
+  if (e.key === "Enter") enterTest();
+};
+
+function enterTest() {
+  const name = document.getElementById("nameInput").value.trim();
+  if (name === "") {
+    document.getElementById("werr").innerText = "Please write your name • اكتب اسمك من فضلك";
+    return;
+  }
+  const hello = document.getElementById("hello");
+  hello.innerHTML = "";
+  const ar = document.createElement("div");
+  ar.dir = "rtl";
+  ar.innerText = "مرحبا " + name + " في اختبار تحديد المستوى 🌸";
+  const en = document.createElement("div");
+  en.innerText = "Hello " + name + ", welcome to the level test! ✨";
+  hello.appendChild(ar);
+  hello.appendChild(en);
+  document.getElementById("welcome").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+  </html>
