@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English Test</title>
 <style>
-body{background:#6D1F2F;color:#F5EBDD;font-family:Arial,sans-serif;margin:0;padding:16px}
+
+  body{background:#6D1F2F;color:#F5EBDD;font-family:Arial,sans-serif;margin:0;padding:16px}
 h1,h2{text-align:center}
 .card{background:#F5EBDD;color:#6D1F2F;border-radius:12px;padding:14px;margin-bottom:14px}
 .card h3{margin-top:0}
@@ -71,6 +70,7 @@ h1,h2{text-align:center}
 <button id="next" class="main" style="display:none"></button>
 </div>
 <script>
+
 
 /* كل سؤال: [النص, الجواب الصحيح, خطأ1, خطأ2, خطأ3] */
 const groups = [
@@ -229,6 +229,58 @@ const groups = [
 ["“I have to finish this report by tomorrow.” What does “have to” express here?","An obligation","A past habit","A possibility in the past","A personal preference"],
 ["Choose the sentence with the same meaning: “Despite being tired, she continued working.”","Although she was tired, she continued working.","Because she was tired, she stopped working.","She continued working until she became tired.","She wasn't tired, so she worked."],
 ["“I haven't decided whether to accept the job offer yet.” What does the speaker mean?","The speaker has not made a decision so far.","The decision is already final.","The speaker has refused the job.","The speaker started the job yesterday."]
+]},
+  { name: "A2.2", qs: [
+["I _____ my keys, so I can't open the door.","have lost","lost","was losing","lose"],
+["When we arrived at the cinema, the film _____.","had already started","already started","has already started","was already start"],
+["She _____ dinner when the lights suddenly went out.","was cooking","cooked","has cooked","cooks"],
+["I haven't spoken to him _____ last Monday.","since","for","during","from"],
+["They _____ in this house for five years, and they still live here.","have lived","lived","are living since","live since"],
+["What _____ at eight o'clock last night?","were you doing","did you do","have you done","are you doing"],
+["I think our team _____ the match tomorrow.","will win","wins yesterday","winning","has win"],
+["Look at those dark clouds! It _____ rain.","is going to","will to","goes to","has to"],
+["He _____ eat vegetables, but now he eats them every day.","didn't use to","didn't used to","wasn't use to","doesn't used to"],
+["While I was walking home, I _____ an old friend.","met","have met","was meeting","meet"],
+["If she _____ early, she will catch the bus.","leaves","will leave","left","would leave"],
+["You _____ have told me earlier! Now it's too late.","should","should to","must to","can"],
+["You _____ smoke inside the hospital. It's forbidden.","mustn't","don't have to","shouldn't to","couldn't to"],
+["You _____ bring any food. We've already prepared everything.","don't have to","mustn't","shouldn't","can't to"],
+["There is _____ sugar left, so we can make a cake.","a little","a few","few","many"],
+["Neither answer _____ correct.","is","are","be","were"],
+["The woman _____ lives next door is a doctor.","who","which","where","whose"],
+["This is the restaurant _____ we had dinner yesterday.","where","who","whose","when"],
+["My bag is not as _____ as yours.","heavy","heavier","heaviest","more heavy"],
+["The test was _____ difficult that many students needed more time.","so","such","too much","enough"],
+["He suggested _____ a taxi instead of walking.","taking","take","to take","took"],
+["I hope _____ you again soon.","to see","seeing","see","saw"],
+["She is interested in _____ abroad.","studying","study","to study","studied"],
+["Remember _____ the door before you leave.","to lock","lock","locking to","locked"],
+["He stopped _____ some water because he was thirsty.","to drink","drinking","drink","drank"],
+["I'm looking forward to _____ you at the party.","seeing","see","saw","have seen"],
+["She made me _____ for an hour.","wait","to wait","waiting","waited"],
+["Would you mind _____ the window?","closing","close","to close","closed"],
+["I ran _____ an old classmate at the supermarket.","into","over","away","off"],
+["We have run _____ milk. Can you buy some?","out of","into","over","after"],
+["Please look _____ this word in the dictionary.","up","after","into","out"],
+["She takes _____ her mother; they look very similar.","after","off","up","over"],
+["He apologized _____ breaking my phone.","for","about","at","with"],
+["I'm not very good _____ remembering names.","at","in","on","for"],
+["She depends _____ her parents for financial support.","on","of","with","at"],
+["We arrived _____ Paris late at night.","in","at","on","to"],
+["The meeting was _____ because the manager was ill.","put off","taken after","looked up","given back"],
+["I need to _____ a decision before Friday.","make","do","take","have"]
+["My phone _____ by my brother yesterday.","was broken","broke","is broken","has broke"],
+["English _____ in many countries around the world.","is spoken","speaks","is speaking","spoke"],
+["I'm tired because I _____ all day.","have been working","work","am worked","working"],
+["This is the _____ book I have ever read.","most interesting","more interesting","interestingest","most interested"],
+["_____ you help me with this heavy bag, please?","Could","Can to","Do to","Are"],
+["She is the girl _____ brother is my classmate.","whose","who","which","whom"],
+["I'm not sure, but he _____ be at home now.","might","is might","mights","must to"],
+["Sorry, I didn't hear you. I _____ to music.","was listening","listen","have listened","am listened"],
+["If you are very happy about something, you are _____.","delighted","disappointed","furious","embarrassed"],
+["A _____ is a person who writes news stories for a newspaper.","journalist","pilot","dentist","architect"],
+["The plane will _____ at six, so we must go to the airport now.","take off","take after","take up","take out"],
+["“I'm sorry, but I can't come to your party.” Choose the best reply.","That's a pity. Maybe next time.","You're welcome.","Nice to meet you.","Happy birthday!"]
 ]}
 ];
 
@@ -294,7 +346,7 @@ finishBtn.onclick = function () {
   quiz.innerHTML = "";
   let msg = "Score: " + score + " / " + current.length + "<br>";
   if (passed && gi < groups.length - 1) {
-    msg += "Great! Next: " + groups[gi + 1].name;
+     msg += "Congratulations! You moved to level " + groups[gi + 1].name + "<br><span dir='rtl'>تهانينا! انتقلت إلى المستوى " + groups[gi + 1].name + "</span>";
     nextBtn.innerText = "Go to " + groups[gi + 1].name;
     done = false;
   } else {
@@ -340,4 +392,4 @@ function enterTest() {
 }
 </script>
 </body>
-  </html>
+</html>
